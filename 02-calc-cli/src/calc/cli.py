@@ -20,10 +20,11 @@ def build_arg_parser():
 
 def main():
     parser = build_arg_parser()
-    args = parser.parse_args()
+    args = vars(parser.parse_args())
 
-    if all([args.x, args.operator, args.y]):
-        print_result(args.x, args.operator, args.y)
-        return
-
-    repl()
+    if all(v is None for v in args.values()):
+        repl()
+    elif all(v is not None for v in args.values()):
+        print_result(args["x"], args["operator"], args["y"])
+    else:
+        print(parser.format_help())
