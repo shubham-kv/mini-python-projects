@@ -7,6 +7,7 @@ Collection of beginner friendly mini projects in Python.
 
 1. [Guess the Number Game](./01-guess-the-number-game/README.md)
 1. [Calculator CLI](./02-calc-cli/README.md)
+1. [Todos CLI](./03-todos-cli/README.md)
 
 ## LICENSE
 
