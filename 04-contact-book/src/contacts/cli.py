@@ -1,6 +1,6 @@
 import argparse
 
-from contacts.core import add_contact, print_contacts, search_contacts
+from contacts.core import add_contact, delete_contact, print_contacts, search_contacts
 from contacts.storage import load_contacts
 
 
@@ -19,6 +19,9 @@ def build_arg_parser():
     search_parser.add_argument("name", type=str, help="Contact Name")
 
     _list_parser = subparsers.add_parser("list", help="List all contacts")
+
+    delete_parser = subparsers.add_parser("delete", help="Delete a contact by id")
+    delete_parser.add_argument("id", type=int, help="Contact's Id")
 
     return parser
 
@@ -41,6 +44,15 @@ def handle_contact_list(_: argparse.Namespace):
         print()
 
 
+def handle_contact_delete(args: argparse.Namespace):
+    deleted = delete_contact(args.id)
+
+    if not deleted:
+        print("Please enter valid Id!")
+    else:
+        print("Contact Deleted!")
+
+
 def main():
     arg_parser = build_arg_parser()
     args = arg_parser.parse_args()
@@ -49,6 +61,7 @@ def main():
         "add": handle_contact_add,
         "search": handle_contact_search,
         "list": handle_contact_list,
+        "delete": handle_contact_delete,
     }
 
     if args.command in handlers.keys():

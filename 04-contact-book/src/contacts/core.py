@@ -57,3 +57,15 @@ def print_contacts(contacts: list[dict[str, int | str | None]]):
 
     for c in contacts:
         print(row_format % (c["id"], c["name"], c["phone"], c["email"]))
+
+
+def delete_contact(id: int) -> bool:
+    contacts = load_contacts()
+    index = next((i for i, c in enumerate(contacts) if c["id"] == id), -1)
+
+    if index <= -1:
+        return False
+
+    del contacts[index]
+    save_contacts(contacts)
+    return True
