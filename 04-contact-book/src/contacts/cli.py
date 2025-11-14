@@ -1,7 +1,6 @@
 import argparse
 
 from contacts.core import add_contact
-from contacts.models import ContactCreate
 
 
 def build_arg_parser():
@@ -18,13 +17,20 @@ def build_arg_parser():
     return parser
 
 
+def handle_contact_add(args: argparse.Namespace):
+    add_contact(name=args.name, phone=args.phone, email=args.email)
+
+
 def main():
     arg_parser = build_arg_parser()
     args = arg_parser.parse_args()
 
-    if args.command == "add":
-        contact = ContactCreate(name=args.name, phone=args.phone, email=args.email)
-        add_contact(contact)
-        return
+    handlers = {
+        "add": handle_contact_add,
+    }
 
-    print(arg_parser.format_help())
+    if args.command in handlers.keys():
+        handler = handlers[args.command]
+        handler(args)
+    else:
+        print(arg_parser.format_help())

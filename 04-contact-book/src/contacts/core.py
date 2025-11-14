@@ -1,16 +1,41 @@
-from dataclasses import asdict
 from datetime import datetime
 
-from contacts.models import Contact, ContactCreate
 from contacts.storage import load_contacts, save_contacts
+from contacts.utils import parse_email, parse_phone
 
 
-def add_contact(contact: ContactCreate):
+def add_contact(
+    name: str, phone: str | None, email: str | None
+) -> None | dict[str, int | str | None]:
+    if phone:
+        err, formatted_phone = parse_phone(phone)
+
+        if err:
+            print("Invalid Phone, " + err)
+            return None
+
+        phone = formatted_phone
+
+    if email:
+        err, normalized_email = parse_email(email)
+
+        if err:
+            print("Invalid Email, " + err)
+            return None
+
+        email = normalized_email
+
     contacts = load_contacts()
 
-    created_at = datetime.now().__str__()
-    new_contact = Contact(**asdict(contact), id=len(contacts), created_at=created_at)
-    contacts.append(asdict(new_contact))
+    new_contact = {
+        "id": len(contacts),
+        "name": name,
+        "phone": phone,
+        "email": email,
+        "created_at": datetime.now().__str__(),
+    }
 
+    contacts.append(new_contact)
     save_contacts(contacts)
 
+    return new_contact

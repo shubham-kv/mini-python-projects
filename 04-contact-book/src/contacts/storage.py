@@ -16,4 +16,4 @@ def load_contacts() -> list[dict[str, int | str | None]]:
 
 def save_contacts(contacts: list[dict[str, int | str | None]]):
     with open(contacts_data_path, "w") as file:
-        json.dump(contacts, file, indent=2, sort_keys=True)
+        json.dump(contacts, file, indent=2)
