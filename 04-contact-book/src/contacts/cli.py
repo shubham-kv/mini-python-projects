@@ -35,8 +35,10 @@ def handle_contact_search(args: argparse.Namespace):
 
 def handle_contact_list(_: argparse.Namespace):
     contacts = load_contacts()
-    print_contacts(contacts)
-    print()
+
+    if len(contacts) > 0:
+        print_contacts(contacts)
+        print()
 
 
 def main():

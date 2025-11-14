@@ -48,9 +48,12 @@ def search_contacts(query: str):
 
 
 def print_contacts(contacts: list[dict[str, int | str | None]]):
-    print(" %2s | %-20s | %-15s | %s " % ("Id", "Name", "Phone", "Email"))
+    if len(contacts) == 0:
+        return
+
+    row_format = " %2s | %-20s | %-15s | %s "
+
+    print(row_format % ("Id", "Name", "Phone", "Email"))
 
     for c in contacts:
-        print(
-            " %2d | %-20s | %-15s | %s " % (c["id"], c["name"], c["phone"], c["email"])
-        )
+        print(row_format % (c["id"], c["name"], c["phone"], c["email"]))
